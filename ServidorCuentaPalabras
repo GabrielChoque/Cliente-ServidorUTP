@@ -1,0 +1,48 @@
+import java.net.*;
+import java.io.*;
+
+public class ServidorUDP {
+
+  public static void main (String args[]) {
+
+System.out.println("servidor");
+   try {
+	   DatagramSocket socketUDP = new DatagramSocket(6543);
+	   byte [] buffer = new byte[10000];
+	   while (true) {
+		   DatagramPacket peticion = new DatagramPacket(buffer , buffer.length);
+		   socketUDP.receive(peticion );
+		  // DatagramPacket mensaje = new DatagramPacket(peticion.getData(), peticion.getLength(), peticion.getAddress(), peticion.getPort());
+		   //socketUDP.send(mensaje);
+		   String res = new String(peticion.getData());
+		   String x = recupera(res , peticion.getLength());
+		   int n = cuentapal(x);
+		   x = Integer.toString(n);
+		
+		   byte [] enviar = x.getBytes();
+		   DatagramPacket mensaje = new DatagramPacket(enviar, x.length(), peticion.getAddress(), peticion.getPort());
+		   socketUDP.send(mensaje);
+		   System.out.println("datos: "+ new String(peticion.getData()));
+		   System.out.println("puerto del cliente:"+ peticion.getPort());
+		   System.out.println("tamaño del paquete:"+ peticion.getLength());
+		   
+	   }
+	  
+} catch (Exception e) {
+	// TODO: handle exception
+}
+   
+  }
+
+public static String recupera(String x , int n) {
+	String res= "";
+	for (int i = 0 ; i<n; i++) {
+		res += x.charAt(i);
+	}
+	return res;
+}
+public static int cuentapal(String x) {
+	String [] extra = x.split(" ");
+	return extra.length;
+}
+}
