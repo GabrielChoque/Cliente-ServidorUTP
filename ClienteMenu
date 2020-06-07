@@ -1,0 +1,79 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.Reader;
+import java.net.*;
+public class ClienteTCP {
+
+	public static void main(String[] args) throws IOException{
+		Socket socketCliente = null;
+		BufferedReader entrada = null;
+	    PrintWriter salida = null;
+	    System.out.println("Cliente --> escriba el numero de la opcion o salir\n");
+	    System.out.println("MENU");
+    	System.out.println("opcion1");
+    	System.out.println("opcion2");
+    	System.out.println("opcion3");
+    	System.out.println("salir");
+    	
+	    try {
+			socketCliente = new Socket("localhost",4673);
+			entrada = new BufferedReader(new InputStreamReader (socketCliente.getInputStream()));
+			salida = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socketCliente.getOutputStream())),true);
+			
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+   BufferedReader gabo = new BufferedReader(new InputStreamReader(System.in));
+       try {
+    	   while (true) {
+    		   String cad = gabo.readLine();
+    		   salida.println(cad);
+    		   if (cad.equals("salir"))break;
+    		    cad = entrada.readLine();
+    		    if (cad.equals("1")) {
+    		    	System.out.println("--> PAPEL <--");
+    		    	System.out.println("MENU");
+    		    	System.out.println("opcion1");
+    		    	System.out.println("opcion2");
+    		    	System.out.println("opcion3");
+    		    	System.out.println("salir");
+    		    }else {
+    		    	if (cad.equals("2")) {
+    		    		System.out.println("--> PIEDRA <--");
+        		    	System.out.println("MENU");
+        		    	System.out.println("opcion1");
+        		    	System.out.println("opcion2");
+        		    	System.out.println("opcion3");
+        		    	System.out.println("salir");
+    		    	}else {
+    		    		if (cad.equals("3")) {
+    		    			System.out.println("--> TIJERA <--");
+            		    	System.out.println("MENU");
+            		    	System.out.println("opcion1");
+            		    	System.out.println("opcion2");
+            		    	System.out.println("opcion3");
+            		    	System.out.println("salir");
+    		    		}
+    		    	}
+    		    	
+    		    }
+    		    
+    		   
+    	   }
+	    
+	    
+      } catch (Exception e) {
+	    // TODO: handle exception
+      }
+       salida.close();
+       entrada.close();
+       gabo.close();
+       socketCliente.close();
+       
+	}
+
+}
