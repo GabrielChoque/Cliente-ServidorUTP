@@ -1,0 +1,33 @@
+import java.net.*;
+import java.io.*;
+
+public class ClienteUDP {
+
+  public static void main(String args[]) {
+	  System.out.println("cliente");
+   try {
+	   DatagramSocket socketUDP = new DatagramSocket();
+	   int puerto = 6543;
+	   InetAddress host = InetAddress.getByName("localHost");
+	   BufferedReader gabo = new BufferedReader(new InputStreamReader(System.in));
+	   String cad;
+	   while(true) {
+		   cad = gabo.readLine();
+		   if (cad.equals("adios"))break;
+		   byte [] men = cad.getBytes();
+		   DatagramPacket peticion = new DatagramPacket(men,cad.length(),host, puerto);
+		   socketUDP.send(peticion);
+		   byte [] buffer = new byte[10000];
+		   DatagramPacket mensaje = new DatagramPacket(buffer , buffer.length);
+		   socketUDP.receive(mensaje);
+		   System.out.println("el numero de palabra es :"+ new String(mensaje.getData()));
+		   
+	   }
+	 
+	
+} catch (Exception e) {
+	// TODO: handle exception
+}
+    
+  }
+}
