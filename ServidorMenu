@@ -27,7 +27,6 @@ public class ServidorTCP {
 				salida = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socketCliente.getOutputStream())),true);
 				while (true) {
 					String cad = entrada.readLine();
-					if (cad.equals("salida"))break;
 					System.out.println(cad);
 					if (cad.equals("1")) {
 						System.out.println("->PAPEL<-");
@@ -35,8 +34,14 @@ public class ServidorTCP {
 						if (cad.equals("2")) {
 							System.out.println("->PIEDRA<-");
 						}else {
-							cad.equals("3");
-							System.out.println("->TIJERA<-");
+							if (cad.equals("3"))
+							{
+								System.out.println("->Tijera<-");
+							}else {
+								socketCliente = SocketServidor.accept();
+								entrada = new BufferedReader(new InputStreamReader (socketCliente.getInputStream()));
+								salida = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socketCliente.getOutputStream())),true);
+							}
 						}
 					}
 					salida.println(cad);
@@ -60,3 +65,4 @@ public class ServidorTCP {
 	}
 
 }
+
